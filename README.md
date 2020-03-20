@@ -10,7 +10,6 @@ It aims to:
 
 It is also opinionated in these ways:
 
-- include React Hooks in the library
 - use [Immer](https://github.com/immerjs/immer) to allow for direct state mutation
 - use different terms as the original Redux
 
@@ -23,6 +22,8 @@ If you're coming from Redux, here is a glossary with the terms you are familiar 
 | Dispatch | Dispatch       | ✔️  |
 | Action   | Message        | ❗  |
 | Reducer  | MessageHandler | ❗  |
+
+If you want to use this with react, add `react-zeno` to your project.
 
 ## Getting Started
 
@@ -255,7 +256,6 @@ If you pass an array of middlewares, they will be called in the given order.
 
 ## Future Work:
 
-- Spawn instances
 - Hooks
 - Context Providers
 - DevTools Integration
