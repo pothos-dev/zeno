@@ -44,7 +44,8 @@ export function createStoreInstance<T extends StoreShape>(
 
   // Executes a Message by running it through the reducer, thereby updating the State.
   function processMessage(message: SingleMessageOf<T>): void {
-    currentState = executeMiddleware(message)
+    const nextState = executeMiddleware(message)
+    currentState = nextState
   }
 
   return storeInstance
