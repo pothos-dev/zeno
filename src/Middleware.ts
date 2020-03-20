@@ -37,5 +37,5 @@ function middlewareAsList<T extends StoreShape>(
 ): Middleware<T>[] {
   if (!middleware) return []
   if (!Array.isArray(middleware)) return [middleware]
-  return middleware
+  return middleware.reverse()
 }

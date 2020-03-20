@@ -197,6 +197,43 @@ const storeDefinition = setupStore<Store>({
 })
 ```
 
+## Middleware
+
+Zeno implements the Redux Middleware API and is compatible with existing middleware libraries.
+
+A middleware has this form:
+
+```ts
+const exceptionHandlerMiddleware = (store) => (next) => (message) => {
+  // we have access to the store instance
+  const prevState = store.getState()
+
+  // call the next middleware (or finally the registered messageHandler)
+  try {
+    const nextState = next(message)
+    // return the updated state from middleware
+    return nextState
+  } catch (error) {
+    // or do some other things, like logging and
+    // returning the previous state in case of an error
+    console.error(error.message)
+    return prevState
+  }
+}
+```
+
+You can pass any number of middlewares to `setupStore`:
+
+```ts
+const storeDefinition = setupStore<MyStore>({
+  initialState: {...}
+  messageHandlers: {...}
+  middleware: [loggerMiddleware, exceptionHandlerMiddleware]
+})
+```
+
+If you pass an array of middlewares, they will be called in the given order.
+
 # Future Work:
 
 - Hooks
