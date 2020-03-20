@@ -6,6 +6,11 @@ import { createReducer } from './Reducer'
 import { createExecuteMiddleware } from './Middleware'
 import { StateOf } from './State'
 import { SingleMessageOf } from './Messages'
+import {
+  Subscriber,
+  Unsubscribe,
+  createSubscribableState,
+} from './Subscription'
 
 // A StoreInstance is the object that actually contains the state.
 // There's always at least 1 instance, but more can be created
@@ -16,15 +21,23 @@ export interface StoreInstance<T extends StoreShape> {
 
   // Dispatches a Message to the Store, which will update its State.
   dispatch: Dispatch<T>
+
+  subscribe(
+    subscriber: Subscriber<StateOf<T>>,
+    sendImmediate?: boolean
+  ): Unsubscribe
 }
 
 export function createStoreInstance<T extends StoreShape>(
   options: DefineStoreOptions<T>
 ): StoreInstance<T> {
-  let currentState = options.initialState
+  const { getState, setState, subscribe } = createSubscribableState(
+    options.initialState
+  )
 
   const storeInstance = {
-    getState: () => currentState,
+    getState,
+    subscribe,
 
     // Make sure that dispatched Messages are passed one-by-one to processMessage
     dispatch: createSerialMessageExecutor(processMessage),
@@ -49,7 +62,7 @@ export function createStoreInstance<T extends StoreShape>(
   function processMessage(message: SingleMessageOf<T>): void {
     const nextState = executeMiddleware(message)
     // This is where the state gets updated
-    currentState = nextState
+    setState(nextState)
   }
 
   return storeInstance
