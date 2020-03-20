@@ -10,10 +10,15 @@ export type Reducer<TState, TMessage> = (
   message: TMessage
 ) => TState
 
+export type StoreReducer<T extends StoreShape> = Reducer<
+  StateOf<T>,
+  SingleMessageOf<T>
+>
+
 export function createReducer<T extends StoreShape>(
   options: SetupStoreOptions<T>,
   dispatch: Dispatch<T>
-): Reducer<StateOf<T>, SingleMessageOf<T>> {
+): StoreReducer<T> {
   return (prevState, message) => {
     // Extract message type and payload from the message
     const { type, ...payload } = message

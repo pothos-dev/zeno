@@ -3,6 +3,7 @@ import { StoreShape, StateOf, SingleMessageOf } from './Shapes'
 import { Dispatch } from './Dispatch'
 import { createSerialMessageExecutor } from './MessageExecutor'
 import { createReducer } from './Reducer'
+import { createExecuteMiddleware } from './Middleware'
 
 // A StoreInstance is the object that actually contains the state.
 // There's always at least 1 instance, but more can be created
@@ -18,9 +19,8 @@ export interface StoreInstance<T extends StoreShape> {
 export function createStoreInstance<T extends StoreShape>(
   options: SetupStoreOptions<T>
 ): StoreInstance<T> {
-  let currentValue = options.initialState
-
-  // There's a circular dependency here: dispatch -> processMessage -> reducer -> dispatch
+  let currentState = options.initialState
+  const getState = () => currentState
 
   // Make sure that dispatched Messages are passed one-by-one to processMessage
   const dispatch = createSerialMessageExecutor(processMessage)
@@ -29,14 +29,23 @@ export function createStoreInstance<T extends StoreShape>(
   // dispatch additional messages.
   const reducer = createReducer(options, dispatch)
 
+  // storeInstance conforms to Redux' Store type
+  const storeInstance = { getState, dispatch }
+
+  // Build up the chain of middlewares
+  const executeMiddleware = createExecuteMiddleware(
+    options,
+    storeInstance,
+    reducer
+  )
+
+  // There's a circular dependency here: dispatch -> processMessage -> reducer -> dispatch,
+  // so the processMessage function will get hoisted
+
   // Executes a Message by running it through the reducer, thereby updating the State.
   function processMessage(message: SingleMessageOf<T>): void {
-    currentValue = reducer(currentValue, message)
+    currentState = executeMiddleware(message)
   }
 
-  function getState(): StateOf<T> {
-    return currentValue
-  }
-
-  return { getState, dispatch }
+  return storeInstance
 }

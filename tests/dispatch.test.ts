@@ -1,6 +1,6 @@
 import { setupStore } from '../src'
 
-test('async and sync dispatch', async () => {
+test('async and sync dispatch', async (done) => {
   const store = storeDefinition.defaultInstance
 
   expect(store.getState().fetchInProgress).toBe(false)
@@ -28,6 +28,8 @@ test('async and sync dispatch', async () => {
   expect(store.getState().fetchInProgress).toBe(false)
   expect(store.getState().lastError).toBe(undefined)
   expect(store.getState().data).toBe(123)
+
+  done()
 })
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))

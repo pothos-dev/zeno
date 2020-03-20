@@ -206,3 +206,4 @@ const storeDefinition = setupStore<Store>({
 - DevTools Integration
 - Slices
 - Internal Messages
+- Try Thunk instead of Dispatch
