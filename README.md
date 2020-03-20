@@ -133,3 +133,75 @@ The `state` must be read from a specific `Store instance`:
 ```ts
 const currentState = storeInstance.getState()
 ```
+
+## Side effects and async functions
+
+The Redux pattern is synchronous - at each point in time, the `state` must be valid. This is a problem when interacting with asynchronous operations, like fetching data from the network.
+
+The usual workaround is to define a `message` that starts an asynchronous operation, and then another message that updates the Store when the operation completes. Zeno opts to provide a simple callback to `dispatch` messages back to the store.
+
+Zeno allows you to dispatch these messages both synchronously and asynchronously from within the `messageHandler`.
+
+See this example:
+
+```ts
+type Store = {
+  state: {
+    data?: any
+    lastError?: string
+    fetchInProgress: boolean
+  }
+
+  messages: {
+    fetch: {}
+    fetchFinished: { data?: any; error?: string }
+    clearError: {}
+  }
+}
+
+const storeDefinition = setupStore<Store>({
+  initialState: {
+    fetchInProgress: false,
+  },
+
+  messageHandlers: {
+    // The third parameter in any messageHandler
+    // is the dispatch function of the current Store instance.
+    fetch(s, m, dispatch) {
+      // The messageHandler updates the state synchronously...
+      if (s.fetchInProgress) {
+        s.lastError = 'Another fetch is already in progress.'
+      } else {
+        s.fetchInProgress = true
+        // ...and starts of an asynchronous operation,
+        // which will dispatch another message when done.
+        downloadDataAsync().then((data, error) => {
+          dispatch({ type: 'fetchFinished', data, error })
+        })
+      }
+    },
+
+    fetchFinished(s, m, dispatch) {
+      s.fetchInProgress = false
+      s.data = m.data
+      // A messageHandler may also dispatch synchronously.
+      // The dispatched message will be executed immediately afterwards,
+      // before the views have a chance to re-render.
+      dispatch({ type: 'clearError' })
+    },
+
+    clearError(s) {
+      s.lastError = undefined
+    },
+  },
+})
+```
+
+# Future Work:
+
+- Hooks
+- Context Providers
+- Redux Middleware
+- Error Handler
+- DevTools Integration
+- Slices
