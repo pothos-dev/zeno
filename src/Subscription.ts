@@ -3,7 +3,7 @@ export type Unsubscribe = () => void
 
 export function createSubscribableState<T>(initialState: T) {
   let state = initialState
-  let subscribers: Set<Subscriber<T>>
+  let subscribers = new Set<Subscriber<T>>()
 
   function setState(newState: T) {
     state = newState
