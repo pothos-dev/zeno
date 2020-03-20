@@ -271,6 +271,7 @@ If you pass an array of middlewares, they will be called in the given order.
 
 ## Future Work:
 
+- Subscription
 - Hooks
 - Context Providers
 - DevTools Integration

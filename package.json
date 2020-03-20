@@ -24,7 +24,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "prepare": "rm -rf nodemodules && tsc",
+    "prepare": "rm -rf dist && tsc",
     "test": "jest"
   }
 }
