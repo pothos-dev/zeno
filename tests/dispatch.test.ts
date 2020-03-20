@@ -62,7 +62,7 @@ const storeDefinition = setupStore<Store>({
   messageHandlers: {
     // The third parameter in any messageHandler
     // is the dispatch function of the current Store instance.
-    fetch(s, m, dispatch) {
+    fetch(s, m) {
       // The messageHandler updates the state synchronously...
       if (s.fetchInProgress) {
         s.lastError = 'Another fetch is already in progress.'
@@ -77,7 +77,7 @@ const storeDefinition = setupStore<Store>({
       }
     },
 
-    fetchFinished(s, m, dispatch) {
+    fetchFinished(s, m, { dispatch }) {
       s.data = m.data
       s.fetchInProgress = false
 

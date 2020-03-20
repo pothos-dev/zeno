@@ -138,9 +138,11 @@ const currentState = storeInstance.getState()
 
 The Redux pattern is synchronous - at each point in time, the `state` must be valid. This is a problem when interacting with asynchronous operations, like fetching data from the network.
 
-The usual workaround is to define a `message` that starts an asynchronous operation, and then another message that updates the Store when the operation completes. Zeno opts to provide a simple callback to `dispatch` messages back to the store.
+The usual workaround is to define a `message` that starts an asynchronous operation, and then another message that updates the Store when the operation completes.
 
-Zeno allows you to dispatch these messages both synchronously and asynchronously from within the `messageHandler`.
+Zeno implements the [Thunk](https://github.com/reduxjs/redux-thunk) pattern, where you can return a function from `messageHandler` that has access to the **store instance** and can synchronously or asynchronously dispatch new `messages`:
+
+Alternatively, the **store instance** is passed as the third parameter to each `messageHandler` and can be used in the same way.
 
 See this example:
 
@@ -165,9 +167,7 @@ const storeDefinition = setupStore<Store>({
   },
 
   messageHandlers: {
-    // The third parameter in any messageHandler
-    // is the dispatch function of the current Store instance.
-    fetch(s, m, dispatch) {
+    fetch(s, m) {
       // The messageHandler updates the state synchronously...
       if (s.fetchInProgress) {
         s.lastError = 'Another fetch is already in progress.'
@@ -175,13 +175,15 @@ const storeDefinition = setupStore<Store>({
         s.fetchInProgress = true
         // ...and starts of an asynchronous operation,
         // which will dispatch another message when done.
-        downloadDataAsync().then(({ data, error }) => {
+        return async (dispatch) => {
+          const { data, error } = await downloadDataAsync()
           dispatch({ type: 'fetchFinished', data, error })
-        })
+        }
       }
     },
 
-    fetchFinished(s, m, dispatch) {
+    // extract the dispatch function of the executing store instance instead using Thunk
+    fetchFinished(s, m, { dispatch }) {
       s.fetchInProgress = false
       s.data = m.data
       // A messageHandler may also dispatch synchronously.

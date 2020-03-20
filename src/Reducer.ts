@@ -35,7 +35,7 @@ export function createReducer<T extends StoreShape>(
       const nextStateOrThunk = messageHandler(
         draft,
         payload as any,
-        storeInstance.dispatch
+        storeInstance
       )
 
       if (typeof nextStateOrThunk == 'function') {

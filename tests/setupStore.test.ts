@@ -53,7 +53,7 @@ test('cascading messages are serialized', () => {
   const store = setupStore<CascadingMessagesStore>({
     initialState: { counter: 0 },
     messageHandlers: {
-      addOneAndCascade(s, m, dispatch) {
+      addOneAndCascade(s, m, { dispatch }) {
         observed.push({
           counter: s.counter,
           level: m.level,

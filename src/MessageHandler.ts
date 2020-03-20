@@ -1,10 +1,10 @@
 // Creates an Object where the keys are `'messageType'`
 
 import { StoreShape } from './StoreShape'
-import { Dispatch } from './Dispatch'
 import { Thunk } from './Thunk'
 import { MessageTypesOf } from './Messages'
 import { StateOf } from './State'
+import { StoreInstance } from './StoreInstance'
 
 // and the values are MessageHandlers for these messages.
 export type MessageHandlersOf<T extends StoreShape> = {
@@ -20,5 +20,5 @@ export type MessageHandlerOf<
 > = (
   state: StateOf<TStoreShape>,
   payload: TStoreShape['messages'][TMessageType],
-  dispatch: Dispatch<TStoreShape>
+  storeInstance: StoreInstance<TStoreShape>
 ) => StateOf<TStoreShape> | Thunk<TStoreShape> | void
