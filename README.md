@@ -61,22 +61,22 @@ This is the only place where you need to mention these types, they will be infer
 
 ### Creating a Store
 
-We have to differentiate between a **Store definition** and a **Store instance**.
+We have to differentiate between a `StoreDefinition` and a `StoreInstance`.
 
 Store definitions:
 
 - define `state` and `messages` types (as shown above)
 - defines behavior using `messageHandlers`
-- include at least 1 **Store instance**, but can spawn additional instances
+- include at least 1 `StoreInstance`, but can spawn additional instances
 
 Store instance:
 
 - contains the actual `state` values
 - receives `messages` and executes the `messageHandlers`
 
-In most cases, you will only ever use the singular **Store instance**, but there might be cases where different parts of your application want to manage their own copy of the state.
+In most cases, you will only ever use the singular `StoreInstance`, but there might be cases where different parts of your application want to manage their own copy of the state.
 
-To create both the **Store definition**, use the `defineStore` method:
+To create both the `StoreDefinition`, use the `defineStore` method:
 
 ```ts
 const storeDefinition = defineStore<TodoStore>({
@@ -112,7 +112,7 @@ The shape of this code mirrors the Type definition we created above.
 
 By passing the **Store type** as generic argument to `defineStore`, the compiler will autocomplete the names of the messages and provide correct type information for the state type (`s`) and the message payloads (`m`).
 
-The **Store definition** can be destructured into these values:
+The `StoreDefinition` can be destructured into these values:
 
 ```ts
 const { defaultInstance } = storeDefinition
@@ -120,7 +120,7 @@ const { defaultInstance } = storeDefinition
 
 ### Dispatching messages
 
-A `message` must be dispatched to a specific `Store instance`:
+A `message` must be dispatched to a specific `StoreInstance`:
 
 ```ts
 storeInstance.dispatch({ type: 'markAsDone', id: 42 })
@@ -130,7 +130,7 @@ The `dispatch` function is fully typed and will autocomplete message types and t
 
 ### Reading Store state
 
-The `state` must be read from a specific `Store instance`:
+The `state` must be read from a specific `StoreInstance`:
 
 ```ts
 const currentState = storeInstance.getState()
@@ -144,9 +144,9 @@ The Redux pattern is synchronous - at each point in time, the `state` must be va
 
 The usual workaround is to define a `message` that starts an asynchronous operation, and then another message that updates the Store when the operation completes.
 
-Zeno implements the [Thunk](https://github.com/reduxjs/redux-thunk) pattern, where you can return a function from `messageHandler` that has access to the **store instance** and can synchronously or asynchronously dispatch new `messages`:
+Zeno implements the [Thunk](https://github.com/reduxjs/redux-thunk) pattern, where you can return a function from `messageHandler` that has access to the `StoreInstance` and can synchronously or asynchronously dispatch new `messages`:
 
-Alternatively, the **store instance** is passed as the third parameter to each `messageHandler` and can be used in the same way.
+Alternatively, the `StoreInstance` is passed as the third parameter to each `messageHandler` and can be used in the same way.
 
 See this example:
 
@@ -240,8 +240,15 @@ const storeDefinition = defineStore<MyStore>({
 
 ### Creating additional store instances
 
+You can call `createInstance` on a `StoreDefinition` to create a new copy of the state.
+
+Optionally, you can pass an initial state into the instance, otherwise it will use the `initialState` from `defineStore`.
+
 ```ts
-const storeInstance = storeDefinition.createInstance()
+async function initializeFromStorage(): StoreInstance<any> {
+  const loadedState = await loadFromStorage()
+  return storeDefinition.createInstance(loadedState)
+}
 ```
 
 If you pass an array of middlewares, they will be called in the given order.

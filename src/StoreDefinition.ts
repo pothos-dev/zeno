@@ -13,7 +13,7 @@ export interface DefineStoreOptions<T extends StoreShape> {
 
 export interface StoreDefinition<T extends StoreShape> {
   defaultInstance: StoreInstance<T>
-  createInstance(): StoreInstance<T>
+  createInstance(initialState?: StateOf<T>): StoreInstance<T>
 }
 
 export function defineStore<T extends StoreShape>(
@@ -21,6 +21,10 @@ export function defineStore<T extends StoreShape>(
 ): StoreDefinition<T> {
   return {
     defaultInstance: createStoreInstance(options),
-    createInstance: () => createStoreInstance(options),
+    createInstance: (initialState) =>
+      createStoreInstance({
+        ...options,
+        initialState: initialState ?? options.initialState,
+      }),
   }
 }
