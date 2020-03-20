@@ -1,6 +1,6 @@
 # Zeno
 
-Zeno is a variant of the [Redux](https://github.com/reduxjs/redux) pattern, but is written from the ground up to support TypeScript in the best way possible.
+Zeno is a variant of the [Redux](https://github.com/reduxjs/redux) pattern, but is written from the ground up to make the best use of Typescripts powerful type inference capabilities.
 
 It aims to:
 
@@ -175,7 +175,7 @@ const storeDefinition = setupStore<Store>({
         s.fetchInProgress = true
         // ...and starts of an asynchronous operation,
         // which will dispatch another message when done.
-        downloadDataAsync().then((data, error) => {
+        downloadDataAsync().then(({ data, error }) => {
           dispatch({ type: 'fetchFinished', data, error })
         })
       }
@@ -205,3 +205,4 @@ const storeDefinition = setupStore<Store>({
 - Error Handler
 - DevTools Integration
 - Slices
+- Internal Messages
