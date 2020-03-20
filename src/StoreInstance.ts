@@ -2,6 +2,7 @@ import { SetupStoreOptions } from './Store'
 import { StoreShape, StateOf, SingleMessageOf } from './Shapes'
 import { Dispatch } from './Dispatch'
 import { createSerialMessageExecutor } from './MessageExecutor'
+import { createReducer } from './Reducer'
 
 // A StoreInstance is the object that actually contains the state.
 // There's always at least 1 instance, but more can be created
@@ -18,10 +19,11 @@ export function createStoreInstance<T extends StoreShape>(
   options: SetupStoreOptions<T>
 ): StoreInstance<T> {
   let currentValue = options.initialState
+  let reducer = createReducer(options)
 
-  // Executes a message by updating the state.
+  // Executes a Message by running it through the reducer, thereby updating the State.
   function processMessage(message: SingleMessageOf<T>): void {
-    // TODO
+    currentValue = reducer(currentValue, message)
   }
 
   // Make sure that dispatched Messages are passed one-by-one to processMessage
