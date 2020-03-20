@@ -74,10 +74,10 @@ Store instance:
 
 In most cases, you will only ever use the singular **Store instance**, but there might be cases where different parts of your application want to manage their own copy of the state.
 
-To create both the **Store definition**, use the `setupStore` method:
+To create both the **Store definition**, use the `defineStore` method:
 
 ```ts
-const storeDefinition = setupStore<TodoStore>({
+const storeDefinition = defineStore<TodoStore>({
   initialState: {
     // Start with an empty list of Todos.
     todos: [],
@@ -108,7 +108,7 @@ const storeDefinition = setupStore<TodoStore>({
 
 The shape of this code mirrors the Type definition we created above.
 
-By passing the **Store type** as generic argument to `setupStore`, the compiler will autocomplete the names of the messages and provide correct type information for the state type (`s`) and the message payloads (`m`).
+By passing the **Store type** as generic argument to `defineStore`, the compiler will autocomplete the names of the messages and provide correct type information for the state type (`s`) and the message payloads (`m`).
 
 The **Store definition** can be destructured into these values:
 
@@ -161,7 +161,7 @@ type Store = {
   }
 }
 
-const storeDefinition = setupStore<Store>({
+const storeDefinition = defineStore<Store>({
   initialState: {
     fetchInProgress: false,
   },
@@ -224,10 +224,10 @@ const exceptionHandlerMiddleware = (store) => (next) => (message) => {
 }
 ```
 
-You can pass any number of middlewares to `setupStore`:
+You can pass any number of middlewares to `defineStore`:
 
 ```ts
-const storeDefinition = setupStore<MyStore>({
+const storeDefinition = defineStore<MyStore>({
   initialState: {...}
   messageHandlers: {...}
   middleware: [loggerMiddleware, exceptionHandlerMiddleware]
@@ -238,9 +238,9 @@ If you pass an array of middlewares, they will be called in the given order.
 
 # Future Work:
 
+- Spawn instances
 - Hooks
 - Context Providers
 - DevTools Integration
 - Slices
 - Internal Messages
-- Try Thunk instead of Dispatch

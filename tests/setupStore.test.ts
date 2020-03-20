@@ -1,4 +1,4 @@
-import { setupStore } from '../src'
+import { defineStore } from '../src'
 
 type MyStore = {
   state: {
@@ -12,7 +12,7 @@ type MyStore = {
 }
 
 const setupTestStore = () =>
-  setupStore<MyStore>({
+  defineStore<MyStore>({
     initialState: {
       counter: 123,
     },
@@ -50,7 +50,7 @@ test('cascading messages are serialized', () => {
   let observed: { counter: number; level: number }[] = []
   let isActive = false
 
-  const store = setupStore<CascadingMessagesStore>({
+  const store = defineStore<CascadingMessagesStore>({
     initialState: { counter: 0 },
     messageHandlers: {
       addOneAndCascade(s, m, { dispatch }) {

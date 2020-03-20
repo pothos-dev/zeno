@@ -1,6 +1,6 @@
 import immer from 'immer'
 import { StoreShape } from './StoreShape'
-import { SetupStoreOptions } from './Store'
+import { DefineStoreOptions } from './Store'
 import { StoreInstance } from './StoreInstance'
 import { StateOf } from './State'
 import { SingleMessageOf } from './Messages'
@@ -18,7 +18,7 @@ export type StoreReducer<T extends StoreShape> = Reducer<
 >
 
 export function createReducer<T extends StoreShape>(
-  options: SetupStoreOptions<T>,
+  options: DefineStoreOptions<T>,
   storeInstance: StoreInstance<T>
 ): StoreReducer<T> {
   return (prevState, message) => {

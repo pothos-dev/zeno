@@ -1,4 +1,4 @@
-import { setupStore } from '../src'
+import { defineStore } from '../src'
 
 test('async and sync dispatch', async (done) => {
   const store = storeDefinition.defaultInstance
@@ -54,7 +54,7 @@ type Store = {
   }
 }
 
-const storeDefinition = setupStore<Store>({
+const storeDefinition = defineStore<Store>({
   initialState: {
     fetchInProgress: false,
   },

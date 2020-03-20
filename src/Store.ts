@@ -4,21 +4,21 @@ import { StoreShape } from './StoreShape'
 import { StateOf } from './State'
 import { MessageHandlersOf } from './MessageHandler'
 
-// Options passed to setupStore()
-export interface SetupStoreOptions<T extends StoreShape> {
+// Options passed to defineStore()
+export interface DefineStoreOptions<T extends StoreShape> {
   initialState: StateOf<T>
   messageHandlers: MessageHandlersOf<T>
   middleware?: Middleware<T> | Middleware<T>[]
 }
 
-// Values created by setupStore()
-export interface SetupStoreResult<T extends StoreShape> {
+// Values created by defineStore()
+export interface DefineStoreResult<T extends StoreShape> {
   defaultInstance: StoreInstance<T>
 }
 
-export function setupStore<T extends StoreShape>(
-  options: SetupStoreOptions<T>
-): SetupStoreResult<T> {
+export function defineStore<T extends StoreShape>(
+  options: DefineStoreOptions<T>
+): DefineStoreResult<T> {
   const defaultInstance = createStoreInstance(options)
   return { defaultInstance }
 }

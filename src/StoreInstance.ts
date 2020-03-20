@@ -1,4 +1,4 @@
-import { SetupStoreOptions } from './Store'
+import { DefineStoreOptions } from './Store'
 import { StoreShape } from './StoreShape'
 import { Dispatch } from './Dispatch'
 import { createSerialMessageExecutor } from './MessageExecutor'
@@ -19,7 +19,7 @@ export interface StoreInstance<T extends StoreShape> {
 }
 
 export function createStoreInstance<T extends StoreShape>(
-  options: SetupStoreOptions<T>
+  options: DefineStoreOptions<T>
 ): StoreInstance<T> {
   let currentState = options.initialState
 
