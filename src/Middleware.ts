@@ -1,8 +1,10 @@
-import { StoreShape, StateOf, SingleMessageOf, MessageTypesOf } from './Shapes'
+import { StoreShape } from './StoreShape'
 import { Dispatch } from './Dispatch'
 import { SetupStoreOptions } from './Store'
 import { StoreReducer } from './Reducer'
 import { StoreInstance } from './StoreInstance'
+import { SingleMessageOf } from './Messages'
+import { StateOf } from './State'
 
 export type Middleware<T extends StoreShape> = (
   storeInstance: StoreInstance<T>

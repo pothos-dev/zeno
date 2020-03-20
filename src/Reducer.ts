@@ -1,8 +1,9 @@
 import immer from 'immer'
-import { StoreShape, SingleMessageOf, StateOf } from './Shapes'
+import { StoreShape } from './StoreShape'
 import { SetupStoreOptions } from './Store'
-import { Dispatch } from './Dispatch'
 import { StoreInstance } from './StoreInstance'
+import { StateOf } from './State'
+import { SingleMessageOf } from './Messages'
 
 // A Reducer takes some State and a Message, and returns new State.
 // The Reducer must not modify the original State.

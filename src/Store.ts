@@ -1,6 +1,8 @@
 import { StoreInstance, createStoreInstance } from './StoreInstance'
-import { StoreShape, StateOf, MessageHandlersOf } from './Shapes'
 import { Middleware } from './Middleware'
+import { StoreShape } from './StoreShape'
+import { StateOf } from './State'
+import { MessageHandlersOf } from './MessageHandler'
 
 // Options passed to setupStore()
 export interface SetupStoreOptions<T extends StoreShape> {

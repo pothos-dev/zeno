@@ -1,9 +1,11 @@
 import { SetupStoreOptions } from './Store'
-import { StoreShape, StateOf, SingleMessageOf } from './Shapes'
+import { StoreShape } from './StoreShape'
 import { Dispatch } from './Dispatch'
 import { createSerialMessageExecutor } from './MessageExecutor'
 import { createReducer } from './Reducer'
 import { createExecuteMiddleware } from './Middleware'
+import { StateOf } from './State'
+import { SingleMessageOf } from './Messages'
 
 // A StoreInstance is the object that actually contains the state.
 // There's always at least 1 instance, but more can be created
