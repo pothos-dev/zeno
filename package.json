@@ -1,0 +1,28 @@
+{
+  "name": "@bearbytes/zeno",
+  "version": "1.0.0",
+  "description": "A Redux implementation optimized for Typescript.",
+  "author": "pancomputationalist@mailbox.org",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "immer": "^6.0.2",
+    "redux": "^4.0.5",
+    "utility-types": "^3.10.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.1.4",
+    "@types/react": "^16.9.23",
+    "react": "16.13.1",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.1",
+    "typescript": "^3.8.3"
+  }
+}
