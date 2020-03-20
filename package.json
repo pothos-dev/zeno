@@ -1,6 +1,6 @@
 {
   "name": "@bearbytes/zeno",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Redux implementation optimized for Typescript.",
   "author": "pancomputationalist@mailbox.org",
   "license": "ISC",
@@ -24,6 +24,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
+    "prepare": "rm -rf nodemodules && tsc",
     "test": "jest"
   }
 }
