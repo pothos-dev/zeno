@@ -1,22 +1,19 @@
 import { StoreInstance, createStoreInstance } from './StoreInstance'
-import { StoreShape, StoreState } from './StoreShape'
+import { StoreShape, StateOf } from './Shapes'
 
 // Options passed to setupStore()
-export interface SetupStoreOptions<TShape extends StoreShape> {
-  initialState: StoreState<TShape>
+export interface SetupStoreOptions<T extends StoreShape> {
+  initialState: StateOf<T>
 }
 
 // Values created by setupStore()
-export interface SetupStoreResult<TShape extends StoreShape> {
-  defaultInstance: StoreInstance<TShape>
+export interface SetupStoreResult<T extends StoreShape> {
+  defaultInstance: StoreInstance<T>
 }
 
-export function setupStore<TShape extends StoreShape>(
-  options: SetupStoreOptions<TShape>
-): SetupStoreResult<TShape> {
+export function setupStore<T extends StoreShape>(
+  options: SetupStoreOptions<T>
+): SetupStoreResult<T> {
   const defaultInstance = createStoreInstance(options)
-
-  return {
-    defaultInstance,
-  }
+  return { defaultInstance }
 }
