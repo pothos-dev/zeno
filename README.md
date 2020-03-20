@@ -2,6 +2,8 @@
 
 Zeno is a variant of the [Redux](https://github.com/reduxjs/redux) pattern, but is written from the ground up to make the best use of Typescripts powerful type inference capabilities.
 
+It has a React integration with the companion library [react-zeno](https://github.com/bearbytes/react-zeno).
+
 It aims to:
 
 - provide auto-completion
@@ -11,7 +13,22 @@ It aims to:
 It is also opinionated in these ways:
 
 - use [Immer](https://github.com/immerjs/immer) to allow for direct state mutation
-- use different terms as the original Redux
+- use different terms as the original Redux (_still thinking about this_)
+
+## Table of Contents
+
+#### Getting started
+
+- [Defining Types](#defining-types)
+- [Creating a Store](#creating-a-store)
+- [Dispatching messages](#dispatching-messages)
+- [Reading Store state](#reading-store-state)
+
+#### Advanced Topics
+
+- [Side effects and async functions](#side-effects-and-async-functions)
+- [Middleware](#middleware)
+- [Creating additional store instances](#creating-additional-store-instances)
 
 If you're coming from Redux, here is a glossary with the terms you are familiar with:
 
@@ -22,8 +39,6 @@ If you're coming from Redux, here is a glossary with the terms you are familiar 
 | Dispatch | Dispatch       | ✔️  |
 | Action   | Message        | ❗  |
 | Reducer  | MessageHandler | ❗  |
-
-If you want to use this with react, add `react-zeno` to your project.
 
 ## Getting Started
 
