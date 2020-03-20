@@ -1,3 +1,3 @@
-import { defineStore } from './Store'
+import { defineStore } from './StoreDefinition'
 
 export { defineStore }

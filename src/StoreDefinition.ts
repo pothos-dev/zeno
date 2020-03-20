@@ -11,14 +11,16 @@ export interface DefineStoreOptions<T extends StoreShape> {
   middleware?: Middleware<T> | Middleware<T>[]
 }
 
-// Values created by defineStore()
-export interface DefineStoreResult<T extends StoreShape> {
+export interface StoreDefinition<T extends StoreShape> {
   defaultInstance: StoreInstance<T>
+  createInstance(): StoreInstance<T>
 }
 
 export function defineStore<T extends StoreShape>(
   options: DefineStoreOptions<T>
-): DefineStoreResult<T> {
-  const defaultInstance = createStoreInstance(options)
-  return { defaultInstance }
+): StoreDefinition<T> {
+  return {
+    defaultInstance: createStoreInstance(options),
+    createInstance: () => createStoreInstance(options),
+  }
 }

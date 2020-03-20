@@ -24,7 +24,9 @@ If you're coming from Redux, here is a glossary with the terms you are familiar 
 | Action   | Message        | ❗  |
 | Reducer  | MessageHandler | ❗  |
 
-## Defining Types
+## Getting Started
+
+### Defining Types
 
 Here is an example for the **Store type** of a Todo App:
 
@@ -57,7 +59,7 @@ As you see, you define the types for the `state`, as well as the names and paylo
 
 This is the only place where you need to mention these types, they will be inferred automatically everywhere else.
 
-## Creating a Store
+### Creating a Store
 
 We have to differentiate between a **Store definition** and a **Store instance**.
 
@@ -116,7 +118,7 @@ The **Store definition** can be destructured into these values:
 const { defaultInstance } = storeDefinition
 ```
 
-## Dispatching messages
+### Dispatching messages
 
 A `message` must be dispatched to a specific `Store instance`:
 
@@ -126,7 +128,7 @@ storeInstance.dispatch({ type: 'markAsDone', id: 42 })
 
 The `dispatch` function is fully typed and will autocomplete message types and their corresponding payloads.
 
-## Reading Store state
+### Reading Store state
 
 The `state` must be read from a specific `Store instance`:
 
@@ -134,7 +136,9 @@ The `state` must be read from a specific `Store instance`:
 const currentState = storeInstance.getState()
 ```
 
-## Side effects and async functions
+## Advanced Topics
+
+### Side effects and async functions
 
 The Redux pattern is synchronous - at each point in time, the `state` must be valid. This is a problem when interacting with asynchronous operations, like fetching data from the network.
 
@@ -199,7 +203,7 @@ const storeDefinition = defineStore<Store>({
 })
 ```
 
-## Middleware
+### Middleware
 
 Zeno implements the Redux Middleware API and is compatible with existing middleware libraries.
 
@@ -234,9 +238,15 @@ const storeDefinition = defineStore<MyStore>({
 })
 ```
 
+### Creating additional store instances
+
+```ts
+const storeInstance = storeDefinition.createInstance()
+```
+
 If you pass an array of middlewares, they will be called in the given order.
 
-# Future Work:
+## Future Work:
 
 - Spawn instances
 - Hooks

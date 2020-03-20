@@ -1,6 +1,6 @@
 import immer from 'immer'
 import { StoreShape } from './StoreShape'
-import { DefineStoreOptions } from './Store'
+import { DefineStoreOptions } from './StoreDefinition'
 import { StoreInstance } from './StoreInstance'
 import { StateOf } from './State'
 import { SingleMessageOf } from './Messages'

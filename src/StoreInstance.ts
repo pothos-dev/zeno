@@ -1,4 +1,4 @@
-import { DefineStoreOptions } from './Store'
+import { DefineStoreOptions } from './StoreDefinition'
 import { StoreShape } from './StoreShape'
 import { Dispatch } from './Dispatch'
 import { createSerialMessageExecutor } from './MessageExecutor'
