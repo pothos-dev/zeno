@@ -19,15 +19,20 @@ export function createStoreInstance<T extends StoreShape>(
   options: SetupStoreOptions<T>
 ): StoreInstance<T> {
   let currentValue = options.initialState
-  let reducer = createReducer(options)
+
+  // There's a circular dependency here: dispatch -> processMessage -> reducer -> dispatch
+
+  // Make sure that dispatched Messages are passed one-by-one to processMessage
+  const dispatch = createSerialMessageExecutor(processMessage)
+
+  // The Reducer of this store needs access to the dispatch, as individual messageHandlers might want to
+  // dispatch additional messages.
+  const reducer = createReducer(options, dispatch)
 
   // Executes a Message by running it through the reducer, thereby updating the State.
   function processMessage(message: SingleMessageOf<T>): void {
     currentValue = reducer(currentValue, message)
   }
-
-  // Make sure that dispatched Messages are passed one-by-one to processMessage
-  const dispatch = createSerialMessageExecutor(processMessage)
 
   function getState(): StateOf<T> {
     return currentValue
