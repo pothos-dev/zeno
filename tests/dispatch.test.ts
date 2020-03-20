@@ -70,9 +70,10 @@ const storeDefinition = setupStore<Store>({
         s.fetchInProgress = true
         // ...and starts of an asynchronous operation,
         // which will dispatch another message when done.
-        downloadDataAsync(m.fail).then(({ data, error }) => {
+        return async (dispatch) => {
+          const { data, error } = await downloadDataAsync(m.fail)
           dispatch({ type: 'fetchFinished', data, error })
-        })
+        }
       }
     },
 

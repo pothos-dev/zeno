@@ -20,17 +20,19 @@ export function createStoreInstance<T extends StoreShape>(
   options: SetupStoreOptions<T>
 ): StoreInstance<T> {
   let currentState = options.initialState
-  const getState = () => currentState
 
-  // Make sure that dispatched Messages are passed one-by-one to processMessage
-  const dispatch = createSerialMessageExecutor(processMessage)
+  const storeInstance = {
+    getState: () => currentState,
+
+    // Make sure that dispatched Messages are passed one-by-one to processMessage
+    dispatch: createSerialMessageExecutor(processMessage),
+  }
 
   // The Reducer of this store needs access to the dispatch, as individual messageHandlers might want to
   // dispatch additional messages.
-  const reducer = createReducer(options, dispatch)
+  const reducer = createReducer(options, storeInstance)
 
   // storeInstance conforms to Redux' Store type
-  const storeInstance = { getState, dispatch }
 
   // Build up the chain of middlewares
   const executeMiddleware = createExecuteMiddleware(
@@ -42,9 +44,9 @@ export function createStoreInstance<T extends StoreShape>(
   // There's a circular dependency here: dispatch -> processMessage -> reducer -> dispatch,
   // so the processMessage function will get hoisted
 
-  // Executes a Message by running it through the reducer, thereby updating the State.
   function processMessage(message: SingleMessageOf<T>): void {
     const nextState = executeMiddleware(message)
+    // This is where the state gets updated
     currentState = nextState
   }
 

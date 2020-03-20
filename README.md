@@ -238,8 +238,6 @@ If you pass an array of middlewares, they will be called in the given order.
 
 - Hooks
 - Context Providers
-- Redux Middleware
-- Error Handler
 - DevTools Integration
 - Slices
 - Internal Messages

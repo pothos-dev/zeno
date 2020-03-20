@@ -5,8 +5,8 @@ import { StoreReducer } from './Reducer'
 import { StoreInstance } from './StoreInstance'
 
 export type Middleware<T extends StoreShape> = (
-  api: MiddlewareAPI<T>
-) => (next: Dispatch<T>) => (message: SingleMessageOf<T>) => any
+  storeInstance: StoreInstance<T>
+) => (next: Dispatch<T>) => (message: SingleMessageOf<T>) => StateOf<T>
 
 type MiddlewareAPI<T extends StoreShape> = {
   dispatch: Dispatch<T>

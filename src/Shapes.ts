@@ -1,5 +1,6 @@
 import { Dictionary, UnionOfValues } from './types'
 import { Dispatch } from './Dispatch'
+import { Thunk } from './Thunk'
 
 // All user-defined Store types must conform to this shape
 export interface StoreShape extends DefinesMessages, DefinesState {}
@@ -20,7 +21,7 @@ export type MessageHandlerOf<
   state: StateOf<TStoreShape>,
   payload: TStoreShape['messages'][TMessageType],
   dispatch: Dispatch<TStoreShape>
-) => StateOf<TStoreShape> | void
+) => StateOf<TStoreShape> | Thunk<TStoreShape> | void
 
 /**
  * State related stuff
