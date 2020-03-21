@@ -27,6 +27,7 @@ It is also opinionated in these ways:
 #### Advanced Topics
 
 - [Side effects and async functions](#side-effects-and-async-functions)
+- [Subscribe to changes](#subscribe-to-changes)
 - [Middleware](#middleware)
 - [Creating additional store instances](#creating-additional-store-instances)
 
@@ -217,6 +218,19 @@ const storeDefinition = defineStore<Store>({
     },
   },
 })
+```
+
+### Subscribe to changes
+
+You can `subscribe` to a `storeInstance` by passing a callback.
+
+The callback will be updated when the state is updated.
+
+If the second parameter of `subscribe` is `true`, the callback will also be executed immediately with the current state.
+
+```ts
+const unsubscribe = storeInstance.subscribe((s) => console.log(s))
+unsubscribe()
 ```
 
 ### Middleware
