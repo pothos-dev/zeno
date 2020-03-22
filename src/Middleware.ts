@@ -3,28 +3,23 @@ import { Dispatch } from './Dispatch'
 import { DefineStoreOptions } from './StoreClass'
 import { StoreReducer } from './Reducer'
 import { StoreInstance } from './StoreInstance'
-import { SingleMessageOf } from './Messages'
-import { StateOf } from './State'
+import { SingleMessage } from './Messages'
+import { State } from './State'
 
 export type Middleware<T extends StoreShape> = (
   storeInstance: StoreInstance<T>
 ) => (next: MiddlewareNext<T>) => MiddlewareNext<T>
 
 type MiddlewareNext<T extends StoreShape> = (
-  message: SingleMessageOf<T>
-) => StateOf<T>
-
-type MiddlewareAPI<T extends StoreShape> = {
-  dispatch: Dispatch<T>
-  getState(): StateOf<T>
-}
+  message: SingleMessage<T>
+) => State<T>
 
 export function createExecuteMiddleware<T extends StoreShape>(
   options: DefineStoreOptions<T>,
   storeInstance: StoreInstance<T>,
   reducer: StoreReducer<T>
 ): (action: any) => any {
-  const innerNext = (action: SingleMessageOf<T>) => {
+  const innerNext = (action: SingleMessage<T>) => {
     return reducer(storeInstance.getState(), action)
   }
 

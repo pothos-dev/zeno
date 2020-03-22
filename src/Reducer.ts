@@ -2,8 +2,8 @@ import immer from 'immer'
 import { StoreShape } from './StoreShape'
 import { DefineStoreOptions } from './StoreClass'
 import { StoreInstance } from './StoreInstance'
-import { StateOf } from './State'
-import { SingleMessageOf } from './Messages'
+import { State } from './State'
+import { SingleMessage } from './Messages'
 
 // A Reducer takes some State and a Message, and returns new State.
 // The Reducer must not modify the original State.
@@ -13,8 +13,8 @@ export type Reducer<TState, TMessage> = (
 ) => TState
 
 export type StoreReducer<T extends StoreShape> = Reducer<
-  StateOf<T>,
-  SingleMessageOf<T>
+  State<T>,
+  SingleMessage<T>
 >
 
 export function createReducer<T extends StoreShape>(
@@ -29,7 +29,7 @@ export function createReducer<T extends StoreShape>(
     const messageHandler = options.messageHandlers[type]
 
     // Reducer must not mutate prevState, so pass it to immer to allow for mutation
-    const nextState: StateOf<T> = immer(prevState, (draft) => {
+    const nextState: State<T> = immer(prevState, (draft) => {
       // Pass the draft into the messageHandler, which might mutate it.
       // Unfortunately, TypeScript does not realize that the payload is valid here.
       const nextStateOrThunk = messageHandler(

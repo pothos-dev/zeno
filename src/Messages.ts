@@ -12,7 +12,7 @@ export type MessageTypesOf<T extends DefinesMessages> = keyof T['messages']
 
 // Creates an Object where the keys are `'messageType'`
 // and the values are `MessagePayload & { type: 'messageType' }`
-export type AllMessagesOf<T extends DefinesMessages> = {
+export type AllMessages<T extends DefinesMessages> = {
   [MessageType in keyof T['messages']]: ValidMessagePayload<
     T['messages'][MessageType]
   > & {
@@ -21,8 +21,8 @@ export type AllMessagesOf<T extends DefinesMessages> = {
 }
 
 // Creates a Union of all messages defined on T.
-export type SingleMessageOf<T extends DefinesMessages> = UnionOfValues<
-  AllMessagesOf<T>
+export type SingleMessage<T extends DefinesMessages> = UnionOfValues<
+  AllMessages<T>
 >
 
 // Prevent a MessagePayload from containing the property `type`, as this is
