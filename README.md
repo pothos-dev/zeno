@@ -229,7 +229,10 @@ The callback will be updated when the state is updated.
 If the second parameter of `subscribe` is `true`, the callback will also be executed immediately with the current state.
 
 ```ts
-const unsubscribe = storeInstance.subscribe((s) => console.log(s))
+const unsubscribe = storeInstance.subscribe(
+  (s) => console.log(s),
+  true /* immediately logs the current state. optional parameter */
+)
 unsubscribe()
 ```
 
@@ -240,13 +243,13 @@ Zeno implements the Redux Middleware API and is compatible with existing middlew
 A middleware has this form:
 
 ```ts
-const exceptionHandlerMiddleware = (store) => (next) => (message) => {
+const exceptionHandlerMiddleware = (store) => (next) => (actionOrMessage) => {
   // we have access to the store instance
   const prevState = store.getState()
 
   // call the next middleware (or finally the registered messageHandler)
   try {
-    const nextState = next(message)
+    const nextState = next(actionOrMessage)
     // return the updated state from middleware
     return nextState
   } catch (error) {
