@@ -4,8 +4,8 @@ import { Dispatch } from './Dispatch'
 import { createSerialMessageExecutor } from './MessageExecutor'
 import { createReducer } from './Reducer'
 import { createExecuteMiddleware } from './Middleware'
-import { State } from './State'
-import { SingleMessage } from './Messages'
+import { StoreState } from './State'
+import { AnyMessage } from './Messages'
 import {
   Subscriber,
   Unsubscribe,
@@ -17,13 +17,13 @@ import {
 // by using the ReactContextRoot component.
 export interface StoreInstance<T extends StoreShape> {
   // Reads the current State from the Store.
-  getState(): State<T>
+  getState(): StoreState<T>
 
   // Dispatches a Message to the Store, which will update its State.
   dispatch: Dispatch<T>
 
   subscribe(
-    subscriber: Subscriber<State<T>>,
+    subscriber: Subscriber<StoreState<T>>,
     sendImmediate?: boolean
   ): Unsubscribe
 }
@@ -59,7 +59,7 @@ export function createStoreInstance<T extends StoreShape>(
   // There's a circular dependency here: dispatch -> processMessage -> reducer -> dispatch,
   // so the processMessage function will get hoisted
 
-  function processMessage(message: SingleMessage<T>): void {
+  function processMessage(message: AnyMessage<T>): void {
     const nextState = executeMiddleware(message)
     // This is where the state gets updated
     setState(nextState)

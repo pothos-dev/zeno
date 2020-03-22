@@ -1,5 +1,5 @@
-import { DefinesMessages, SingleMessage } from './Messages'
+import { DefinesMessages, AnyMessage } from './Messages'
 
 export type Dispatch<T extends DefinesMessages> = (
-  message: SingleMessage<T>
+  message: AnyMessage<T>
 ) => void

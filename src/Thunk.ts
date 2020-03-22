@@ -1,8 +1,8 @@
 import { Dispatch } from './Dispatch'
 import { StoreShape } from './StoreShape'
-import { State } from './State'
+import { StoreState } from './State'
 
 export type Thunk<T extends StoreShape> = (
   dispatch: Dispatch<T>,
-  getState: () => State<T>
+  getState: () => StoreState<T>
 ) => void

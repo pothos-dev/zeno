@@ -1,12 +1,7 @@
 import { Dictionary, UnionOfValues } from './types'
 import { StoreShape } from './StoreShape'
 
-export interface DefinesMessages {
-  // Message types are defined as string keys in `messages`,
-  // where the corresponding values are the payload types for these
-  // messages.
-  messages: Dictionary<Dictionary>
-}
+export type DefinesMessages = Pick<StoreShape, 'messages'>
 
 export type MessageTypesOf<T extends DefinesMessages> = keyof T['messages']
 
@@ -21,7 +16,7 @@ export type AllMessages<T extends DefinesMessages> = {
 }
 
 // Creates a Union of all messages defined on T.
-export type SingleMessage<T extends DefinesMessages> = UnionOfValues<
+export type AnyMessage<T extends DefinesMessages> = UnionOfValues<
   AllMessages<T>
 >
 

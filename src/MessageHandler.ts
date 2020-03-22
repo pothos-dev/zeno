@@ -3,7 +3,7 @@
 import { StoreShape } from './StoreShape'
 import { Thunk } from './Thunk'
 import { MessageTypesOf, StoreMessagePayload } from './Messages'
-import { State } from './State'
+import { StoreState } from './State'
 import { StoreInstance } from './StoreInstance'
 
 // and the values are MessageHandlers for these messages.
@@ -18,7 +18,7 @@ export type MessageHandler<
   TStoreShape extends StoreShape,
   TMessageType extends MessageTypesOf<TStoreShape>
 > = (
-  state: State<TStoreShape>,
+  state: StoreState<TStoreShape>,
   payload: StoreMessagePayload<TStoreShape, TMessageType>,
   storeInstance: StoreInstance<TStoreShape>
-) => State<TStoreShape> | Thunk<TStoreShape> | void
+) => StoreState<TStoreShape> | Thunk<TStoreShape> | void

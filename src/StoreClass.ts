@@ -1,19 +1,20 @@
 import { StoreInstance, createStoreInstance } from './StoreInstance'
 import { Middleware } from './Middleware'
 import { StoreShape } from './StoreShape'
-import { State } from './State'
+import { StoreState } from './State'
 import { MessageHandlers } from './MessageHandler'
 
 // Options passed to createStoreClass()
 export interface DefineStoreOptions<T extends StoreShape> {
-  initialState: State<T>
+  initialState: StoreState<T>
   messageHandlers: MessageHandlers<T>
   middleware?: Middleware<T> | Middleware<T>[]
 }
 
+// Defines Shape and Behaviour of a Store.
 export interface StoreClass<T extends StoreShape> {
   defaultInstance: StoreInstance<T>
-  createInstance(initialState?: State<T>): StoreInstance<T>
+  createInstance(initialState?: StoreState<T>): StoreInstance<T>
 }
 
 export function createStoreClass<T extends StoreShape>(

@@ -1,7 +1,4 @@
-import { Dictionary } from './types'
+import { StoreShape } from '.'
 
-export interface DefinesState {
-  // State must be an object
-  state: Dictionary
-}
-export type State<T extends DefinesState> = T['state']
+export type DefinesState = Pick<StoreShape, 'state'>
+export type StoreState<T extends DefinesState> = T['state']
