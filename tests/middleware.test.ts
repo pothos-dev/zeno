@@ -1,4 +1,4 @@
-import { defineStore } from '../src'
+import { createStoreClass } from '../src'
 
 test('single middleware', () => {
   type Store = {
@@ -7,7 +7,7 @@ test('single middleware', () => {
   }
 
   let messages: any[] = []
-  const storeDef = defineStore<Store>({
+  const storeDef = createStoreClass<Store>({
     initialState: { counter: 0 },
     messageHandlers: {
       ping(s, m) {
@@ -43,7 +43,7 @@ test('double middleware', () => {
   }
 
   let messages: any[] = []
-  const storeDef = defineStore<Store>({
+  const storeDef = createStoreClass<Store>({
     initialState: { counter: 0 },
     messageHandlers: {
       ping(s, m) {
@@ -78,7 +78,7 @@ test('logger and exception handler middleware', () => {
   }
 
   let messages: any[] = []
-  const storeDef = defineStore<Store>({
+  const storeDef = createStoreClass<Store>({
     initialState: { counter: 0 },
     messageHandlers: {
       ping(s, m) {

@@ -1,4 +1,4 @@
-import { defineStore } from '../src'
+import { createStoreClass } from '../src'
 
 test('subscribe to store', () => {
   let values: number[] = []
@@ -7,7 +7,7 @@ test('subscribe to store', () => {
     state: { counter: number }
     messages: { add1: {} }
   }
-  const { defaultInstance } = defineStore<Store>({
+  const { defaultInstance } = createStoreClass<Store>({
     initialState: { counter: 0 },
     messageHandlers: {
       add1(s) {

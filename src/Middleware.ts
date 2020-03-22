@@ -1,6 +1,6 @@
 import { StoreShape } from './StoreShape'
 import { Dispatch } from './Dispatch'
-import { DefineStoreOptions } from './StoreDefinition'
+import { DefineStoreOptions } from './StoreClass'
 import { StoreReducer } from './Reducer'
 import { StoreInstance } from './StoreInstance'
 import { SingleMessageOf } from './Messages'

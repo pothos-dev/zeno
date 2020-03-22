@@ -78,25 +78,25 @@ This is the only place where you need to mention these types, they will be infer
 
 ### Creating a Store
 
-We have to differentiate between a `StoreDefinition` and a `StoreInstance`.
+We have to differentiate between a `StoreClass` and a `StoreInstance`.
 
-Store definitions:
+`StoreClass`:
 
 - define `state` and `messages` types (as shown above)
 - defines behavior using `messageHandlers`
 - include at least 1 `StoreInstance`, but can spawn additional instances
 
-Store instance:
+`StoreInstance`:
 
 - contains the actual `state` values
 - receives `messages` and executes the `messageHandlers`
 
 In most cases, you will only ever use the singular `StoreInstance`, but there might be cases where different parts of your application want to manage their own copy of the state.
 
-To create both the `StoreDefinition`, use the `defineStore` method:
+To create both the `StoreClass`, use the `createStoreClass` method:
 
 ```ts
-const storeDefinition = defineStore<TodoStore>({
+const storeClass = createStoreClass<TodoStore>({
   initialState: {
     // Start with an empty list of Todos.
     todos: [],
@@ -127,12 +127,12 @@ const storeDefinition = defineStore<TodoStore>({
 
 The shape of this code mirrors the Type definition we created above.
 
-By passing the **Store type** as generic argument to `defineStore`, the compiler will autocomplete the names of the messages and provide correct type information for the state type (`s`) and the message payloads (`m`).
+By passing the **Store type** as generic argument to `createStoreClass`, the compiler will autocomplete the names of the messages and provide correct type information for the state type (`s`) and the message payloads (`m`).
 
-The `StoreDefinition` can be destructured into these values:
+The `StoreClass` can be destructured into these values:
 
 ```ts
-const { defaultInstance } = storeDefinition
+const { defaultInstance } = storeClass
 ```
 
 ### Dispatching messages
@@ -182,7 +182,7 @@ type Store = {
   }
 }
 
-const storeDefinition = defineStore<Store>({
+const storeClass = createStoreClass<Store>({
   initialState: {
     fetchInProgress: false,
   },
@@ -261,10 +261,10 @@ const exceptionHandlerMiddleware = (store) => (next) => (actionOrMessage) => {
 }
 ```
 
-You can pass any number of middlewares to `defineStore`:
+You can pass any number of middlewares to `createStoreClass`:
 
 ```ts
-const storeDefinition = defineStore<MyStore>({
+const storeClass = createStoreClass<MyStore>({
   initialState: {...}
   messageHandlers: {...}
   middleware: [loggerMiddleware, exceptionHandlerMiddleware]
@@ -273,14 +273,14 @@ const storeDefinition = defineStore<MyStore>({
 
 ### Creating additional store instances
 
-You can call `createInstance` on a `StoreDefinition` to create a new copy of the state.
+You can call `createInstance` on a `StoreClass` to create a new copy of the state.
 
-Optionally, you can pass an initial state into the instance, otherwise it will use the `initialState` from `defineStore`.
+Optionally, you can pass an initial state into the instance, otherwise it will use the `initialState` from `createStoreClass`.
 
 ```ts
 async function initializeFromStorage(): StoreInstance<any> {
   const loadedState = await loadFromStorage()
-  return storeDefinition.createInstance(loadedState)
+  return storeClass.createInstance(loadedState)
 }
 ```
 
@@ -293,3 +293,4 @@ If you pass an array of middlewares, they will be called in the given order.
 - DevTools Integration
 - Slices
 - Internal Messages
+- Explain why Messages over Actions
