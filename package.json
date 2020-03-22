@@ -1,6 +1,6 @@
 {
   "name": "@bearbytes/zeno",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A Redux implementation optimized for Typescript.",
   "author": "pancomputationalist@mailbox.org",
   "license": "ISC",
