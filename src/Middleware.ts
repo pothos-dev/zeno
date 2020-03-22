@@ -1,5 +1,5 @@
 import { StoreShape } from './StoreShape'
-import { DefineStoreOptions } from './StoreClass'
+import { CreateStoreClassOptions } from './StoreClass'
 import { StoreReducer } from './Reducer'
 import { StoreInstance } from './StoreInstance'
 import { AnyMessage } from './Messages'
@@ -14,7 +14,7 @@ type MiddlewareNext<T extends StoreShape> = (
 ) => StoreState<T>
 
 export function createExecuteMiddleware<T extends StoreShape>(
-  options: DefineStoreOptions<T>,
+  options: CreateStoreClassOptions<T>,
   storeInstance: StoreInstance<T>,
   reducer: StoreReducer<T>
 ): (action: any) => any {

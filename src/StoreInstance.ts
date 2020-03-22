@@ -1,4 +1,4 @@
-import { DefineStoreOptions } from './StoreClass'
+import { CreateStoreClassOptions } from './StoreClass'
 import { StoreShape } from './StoreShape'
 import { Dispatch } from './Dispatch'
 import { createSerialMessageExecutor } from './MessageExecutor'
@@ -29,7 +29,7 @@ export interface StoreInstance<T extends StoreShape> {
 }
 
 export function createStoreInstance<T extends StoreShape>(
-  options: DefineStoreOptions<T>
+  options: CreateStoreClassOptions<T>
 ): StoreInstance<T> {
   const { getState, setState, subscribe } = createSubscribableState(
     options.initialState

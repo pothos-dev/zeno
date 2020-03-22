@@ -1,4 +1,8 @@
-import { createStoreClass, StoreClass } from './StoreClass'
+import {
+  createStoreClass,
+  StoreClass,
+  CreateStoreClassOptions,
+} from './StoreClass'
 import { StoreInstance } from './StoreInstance'
 import { MessageHandler } from './MessageHandler'
 import { Dispatch } from './Dispatch'
@@ -11,6 +15,8 @@ import { StoreState } from './State'
 export {
   // Primary function required to use Zeno.
   createStoreClass,
+  // Options passed to createStoreClass()
+  CreateStoreClassOptions,
   // All user-defined Store types must conform to this shape.
   StoreShape,
   // Defines Shape and Behaviour of a Store.

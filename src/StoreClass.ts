@@ -5,7 +5,7 @@ import { StoreState } from './State'
 import { MessageHandlers } from './MessageHandler'
 
 // Options passed to createStoreClass()
-export interface DefineStoreOptions<T extends StoreShape> {
+export interface CreateStoreClassOptions<T extends StoreShape> {
   initialState: StoreState<T>
   messageHandlers: MessageHandlers<T>
   middleware?: Middleware<T> | Middleware<T>[]
@@ -18,7 +18,7 @@ export interface StoreClass<T extends StoreShape> {
 }
 
 export function createStoreClass<T extends StoreShape>(
-  options: DefineStoreOptions<T>
+  options: CreateStoreClassOptions<T>
 ): StoreClass<T> {
   return {
     defaultInstance: createStoreInstance(options),
