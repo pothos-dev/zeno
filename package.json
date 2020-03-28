@@ -2,6 +2,11 @@
   "name": "@bearbytes/zeno",
   "version": "0.1.8",
   "description": "A Redux implementation optimized for Typescript.",
+  "keywords": [
+    "typescript",
+    "typesafe",
+    "redux"
+  ],
   "author": "pancomputationalist@mailbox.org",
   "license": "ISC",
   "homepage": "https://github.com/bearbytes/zeno",

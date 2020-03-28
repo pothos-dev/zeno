@@ -4,6 +4,7 @@
 
 - [What is Zeno?](#what-is-zeno)
 - [Getting Started](#getting-started)
+  - [Installation](#installation)
   - [Defining Types](#defining-types)
   - [Creating a Store](#creating-a-store)
   - [Dispatching messages](#dispatching-messages)
@@ -52,6 +53,14 @@ If you're coming from Redux, here is a glossary with the terms you are familiar 
 | Reducer  | MessageHandler                            | ❗  |
 
 ## Getting Started
+
+### Installation
+
+```
+npm i @bearbytes/zeno
+# or
+yarn add @bearbytes/zeno
+```
 
 ### Defining Types
 
