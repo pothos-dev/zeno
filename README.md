@@ -1,3 +1,6 @@
+[![NPM Version](https://img.shields.io/npm/v/@bearbytes/zeno.svg?style=flat)]()
+[![Actions Status](https://github.com/bearbytes/zeno/workflows/CI/badge.svg)](https://github.com/bearbytes/zeno/actions)
+
 # Zeno
 
 <!-- TOC depthFrom:2 -->
