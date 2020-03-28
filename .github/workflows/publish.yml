@@ -16,10 +16,9 @@ jobs:
         with:
           node-version: "10.x"
           registry-url: "https://registry.npmjs.org"
-          always-auth: true
-      - run: yarn
-      - run: yarn test
-      - run: yarn publish --access public
+      - run: npm install
+      - run: npm run test
+      - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -27,6 +26,6 @@ jobs:
         with:
           registry-url: "https://npm.pkg.github.com"
           scope: "@bearbytes"
-      - run: yarn publish
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
