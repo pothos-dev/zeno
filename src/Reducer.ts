@@ -1,5 +1,5 @@
 import immer from 'immer'
-import { StoreShape } from './StoreShape'
+import { StoreInterface } from './StoreInterface'
 import { CreateStoreClassOptions } from './StoreClass'
 import { StoreInstance } from './StoreInstance'
 import { StoreState } from './State'
@@ -12,12 +12,12 @@ export type Reducer<TState, TMessage> = (
   message: TMessage
 ) => TState
 
-export type StoreReducer<T extends StoreShape> = Reducer<
+export type StoreReducer<T extends StoreInterface> = Reducer<
   StoreState<T>,
   AnyMessage<T>
 >
 
-export function createReducer<T extends StoreShape>(
+export function createReducer<T extends StoreInterface>(
   options: CreateStoreClassOptions<T>,
   storeInstance: StoreInstance<T>
 ): StoreReducer<T> {

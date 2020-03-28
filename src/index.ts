@@ -9,7 +9,7 @@ import { Dispatch } from './Dispatch'
 import { AnyMessage, AllMessages } from './Messages'
 import { Thunk } from './Thunk'
 import { Middleware } from './Middleware'
-import { StoreShape } from './StoreShape'
+import { StoreInterface } from './StoreInterface'
 import { StoreState } from './State'
 
 export {
@@ -18,12 +18,12 @@ export {
   // Options passed to createStoreClass()
   CreateStoreClassOptions,
   // All user-defined Store types must conform to this shape.
-  StoreShape,
+  StoreInterface,
   // Defines Shape and Behaviour of a Store.
   StoreClass,
   // Created from a StoreClass, holds the actual state of a Store.
   StoreInstance,
-  // Extract the State type from a StoreShape.
+  // Extract the State type from a StoreInterface.
   StoreState,
   // Union of all messages defined for a Store.
   AnyMessage,

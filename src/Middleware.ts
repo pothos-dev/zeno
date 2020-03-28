@@ -1,19 +1,19 @@
-import { StoreShape } from './StoreShape'
+import { StoreInterface } from './StoreInterface'
 import { CreateStoreClassOptions } from './StoreClass'
 import { StoreReducer } from './Reducer'
 import { StoreInstance } from './StoreInstance'
 import { AnyMessage } from './Messages'
 import { StoreState } from './State'
 
-export type Middleware<T extends StoreShape> = (
+export type Middleware<T extends StoreInterface> = (
   storeInstance: StoreInstance<T>
 ) => (next: MiddlewareNext<T>) => MiddlewareNext<T>
 
-type MiddlewareNext<T extends StoreShape> = (
+type MiddlewareNext<T extends StoreInterface> = (
   message: AnyMessage<T>
 ) => StoreState<T>
 
-export function createExecuteMiddleware<T extends StoreShape>(
+export function createExecuteMiddleware<T extends StoreInterface>(
   options: CreateStoreClassOptions<T>,
   storeInstance: StoreInstance<T>,
   reducer: StoreReducer<T>
@@ -32,7 +32,7 @@ export function createExecuteMiddleware<T extends StoreShape>(
   return (action) => middlewareChain[0](action)
 }
 
-function middlewareAsList<T extends StoreShape>(
+function middlewareAsList<T extends StoreInterface>(
   middleware?: Middleware<T> | Middleware<T>[]
 ): Middleware<T>[] {
   if (!middleware) return []

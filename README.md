@@ -1,8 +1,34 @@
 # Zeno
 
+<!-- TOC depthFrom:2 -->
+
+- [What is Zeno?](#what-is-zeno)
+- [Getting Started](#getting-started)
+  - [Defining Types](#defining-types)
+  - [Creating a Store](#creating-a-store)
+  - [Dispatching messages](#dispatching-messages)
+  - [Reading Store state](#reading-store-state)
+- [Advanced Topics](#advanced-topics)
+  - [Side effects and async functions](#side-effects-and-async-functions)
+  - [Subscribe to changes](#subscribe-to-changes)
+  - [Middleware](#middleware)
+  - [Creating additional store instances](#creating-additional-store-instances)
+- [FAQ](#faq)
+  - [Is this compatible with Redux middleware?](#is-this-compatible-with-redux-middleware)
+  - [Why "message" over "action"?](#why-message-over-action)
+  - [Why "messageHandler" over "reducer"?](#why-messagehandler-over-reducer)
+- [Future Work](#future-work)
+  - [DevTools integration](#devtools-integration)
+  - [Slices](#slices)
+  - [Internal Messages](#internal-messages)
+
+<!-- /TOC -->
+
+## What is Zeno?
+
 Zeno is a variant of the [Redux](https://github.com/reduxjs/redux) pattern, but is written from the ground up to make the best use of Typescripts powerful type inference capabilities.
 
-It has a React integration with the companion library [react-zeno](https://github.com/bearbytes/react-zeno).
+If you want to use this together with React, use [react-zeno](https://github.com/bearbytes/react-zeno) instead, as that library also provides typesafe Hooks.
 
 It aims to:
 
@@ -13,43 +39,26 @@ It aims to:
 It is also opinionated in these ways:
 
 - use [Immer](https://github.com/immerjs/immer) to allow for direct state mutation
-- use different terms as the original Redux (_still thinking about this_)
-
-## Table of Contents
-
-#### Getting started
-
-- [Defining Types](#defining-types)
-- [Creating a Store](#creating-a-store)
-- [Dispatching messages](#dispatching-messages)
-- [Reading Store state](#reading-store-state)
-
-#### Advanced Topics
-
-- [Side effects and async functions](#side-effects-and-async-functions)
-- [Subscribe to changes](#subscribe-to-changes)
-- [Middleware](#middleware)
-- [Creating additional store instances](#creating-additional-store-instances)
+- use different terms as the original Redux (see [why](#why-message-over-action))
 
 If you're coming from Redux, here is a glossary with the terms you are familiar with:
 
-| Redux    | Zeno           |     |
-| -------- | -------------- | --- |
-| Store    | Store          | ✔️  |
-| State    | State          | ✔️  |
-| Dispatch | Dispatch       | ✔️  |
-| Action   | Message        | ❗  |
-| Reducer  | MessageHandler | ❗  |
+| Redux    | Zeno                                      |     |
+| -------- | ----------------------------------------- | --- |
+| Store    | StoreInterface, StoreClass, StoreInstance | ❗  |
+| Action   | Message                                   | ❗  |
+| Dispatch | Dispatch                                  | ✔️  |
+| State    | State                                     | ✔️  |
+| Reducer  | MessageHandler                            | ❗  |
 
 ## Getting Started
 
 ### Defining Types
 
-Here is an example for the **Store type** of a Todo App:
+Here is an example for the `StoreInterface` of a Todo App:
 
 ```ts
-type TodoItem = { id: number; text: string; done?: boolean }
-
+// This is called the interface of a store: It defines the public surface (state and messages).
 type TodoStore = {
   state: {
     // List of Todos
@@ -70,6 +79,8 @@ type TodoStore = {
     markAsDone: { id: number }
   }
 }
+
+type TodoItem = { id: number; text: string; done?: boolean }
 ```
 
 As you see, you define the types for the `state`, as well as the names and payloads of `messages` all in one place, without the need for any helper functions or generic types.
@@ -127,7 +138,7 @@ const storeClass = createStoreClass<TodoStore>({
 
 The shape of this code mirrors the Type definition we created above.
 
-By passing the **Store type** as generic argument to `createStoreClass`, the compiler will autocomplete the names of the messages and provide correct type information for the state type (`s`) and the message payloads (`m`).
+By passing the `StoreInterface` as generic argument to `createStoreClass`, the compiler will autocomplete the names of the messages and provide correct type information for the state type (`s`) and the message payloads (`m`).
 
 The `StoreClass` can be destructured into these values:
 
@@ -286,11 +297,40 @@ async function initializeFromStorage(): StoreInstance<any> {
 
 If you pass an array of middlewares, they will be called in the given order.
 
-## Future Work:
+## FAQ
 
-- Hooks
-- Context Providers
-- DevTools Integration
-- Slices
-- Internal Messages
-- Explain why Messages over Actions
+### Is this compatible with Redux middleware?
+
+Yes. However, this library cannot guarantee that any outside middleware conforms to the `state` and `message` types defined for a Zeno store. Middlewares could dispatch actions or create state that cannot be dealt with in a type-safe way. This is not a problem for most middlewares though, as these implement features that do not interfere with the predefined types.
+
+### Why "message" over "action"?
+
+One reason to use the Redux pattern is to separate the concerns of "what happens" with "how does the state change". Essentially, we are implementing a [Publish–subscribe pattern](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern), where the UI (or other parts of the applications) publish events, and the Store subscribes to these events to update its internal state.
+
+Passing detailed instructions to the Store about how the state should exactly change, breaks the encapsulation and tightly couples the business logic with the event dispatcher (that often lives in the UI). So if we'd often have actions called `'setFoo'`, we would be missing the point of Redux, [as stated by Dan Abramov](https://twitter.com/dan_abramov/status/800310397538619393).
+
+Due to this reason, I find the term "_action_" to be confusing, as it implies a specific instruction, rather than an informative event, that the Store is free to act on in any way appropriate. However, using the term "_event_" is also quite restricting, as now the user is encouraged to write `'somethingHappened'` events instead of `'doSomething'` actions.
+
+I chose the term "_message_", as this word carries all the right connotations without implying a certain way of thinking, opening it up for event- and action-based usages. It simply implies an asynchronous packet of information with no added behavior, that can be serialized and sent over a network (as is often useful, for example when working with the Redux DevTools).
+
+### Why "messageHandler" over "reducer"?
+
+The term "_reducer_" is named after [an operation often used in functional programming](<https://en.wikipedia.org/wiki/Fold_(higher-order_function)>), where an initial value (`state`) and any number of additional values (`action`s) are _reduced_ to a single value again (the next `state`). In fact, this is exactly how Redux works and is an appropriate, albeit sometimes confusing term.
+
+However, using Reducers forces the programmer to consider their state immutable, and create new copies of the state, which often leads to a lot of boilerplate and hard to read code. For this reason, nowadays it is often recommended to use [Immer](https://github.com/immerjs/immer) to allow mutating the state in-place. This library does the same thing. But while there is still a `reduce` happening in the internals of the library, the actual user code written to handle a message can no longer be best described by the term "_reducer_".
+
+The term "_messageHandler_" simply states that we need to deal with a message in any way. This might be updating state, creating side-effects (like starting network requests) or dispatching additional messages. It doesn't imply that we are performing a `reduce` operation, like the original term would.
+
+## Future Work
+
+### DevTools integration
+
+The [Redux DevTools](https://github.com/reduxjs/redux-devtools) are very useful when debugging what happens in the Store, and should probably be built into most libraries that implement Redux.
+
+### Slices
+
+As the Store grows and features ever more messages, it is useful to break it up into different parts, which are called [Slice](https://redux-toolkit.js.org/tutorials/basic-tutorial#introducing-createslice) in the Redux world.
+
+### Internal Messages
+
+Just as classes have public and private methods, a Store might have public and private messages. From the outside, only public messages can be dispatched, but the `messageHandlers` of the store might also dispatch private messages, which allows the programmer to extract repeated tasks into an internal `messageHandler`.

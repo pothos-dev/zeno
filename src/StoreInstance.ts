@@ -1,5 +1,5 @@
 import { CreateStoreClassOptions } from './StoreClass'
-import { StoreShape } from './StoreShape'
+import { StoreInterface } from './StoreInterface'
 import { Dispatch } from './Dispatch'
 import { createSerialMessageExecutor } from './MessageExecutor'
 import { createReducer } from './Reducer'
@@ -15,7 +15,7 @@ import {
 // A StoreInstance is the object that actually contains the state.
 // There's always at least 1 instance, but more can be created
 // by using the ReactContextRoot component.
-export interface StoreInstance<T extends StoreShape> {
+export interface StoreInstance<T extends StoreInterface> {
   // Reads the current State from the Store.
   getState(): StoreState<T>
 
@@ -28,7 +28,7 @@ export interface StoreInstance<T extends StoreShape> {
   ): Unsubscribe
 }
 
-export function createStoreInstance<T extends StoreShape>(
+export function createStoreInstance<T extends StoreInterface>(
   options: CreateStoreClassOptions<T>
 ): StoreInstance<T> {
   const { getState, setState, subscribe } = createSubscribableState(

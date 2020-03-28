@@ -1,4 +1,4 @@
-import { StoreShape } from '.'
+import { StoreInterface } from '.'
 
-export type DefinesState = Pick<StoreShape, 'state'>
+export type DefinesState = Pick<StoreInterface, 'state'>
 export type StoreState<T extends DefinesState> = T['state']

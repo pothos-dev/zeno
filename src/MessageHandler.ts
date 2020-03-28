@@ -1,13 +1,13 @@
 // Creates an Object where the keys are `'messageType'`
 
-import { StoreShape } from './StoreShape'
+import { StoreInterface } from './StoreInterface'
 import { Thunk } from './Thunk'
 import { MessageTypesOf, StoreMessagePayload } from './Messages'
 import { StoreState } from './State'
 import { StoreInstance } from './StoreInstance'
 
 // and the values are MessageHandlers for these messages.
-export type MessageHandlers<T extends StoreShape> = {
+export type MessageHandlers<T extends StoreInterface> = {
   [MessageType in keyof T['messages']]: MessageHandler<T, MessageType>
 }
 
@@ -15,10 +15,10 @@ export type MessageHandlers<T extends StoreShape> = {
 // State in-place, or returns a new State object. It can also run side-effects
 // and dispatch more messages.
 export type MessageHandler<
-  TStoreShape extends StoreShape,
-  TMessageType extends MessageTypesOf<TStoreShape>
+  TStoreInterface extends StoreInterface,
+  TMessageType extends MessageTypesOf<TStoreInterface>
 > = (
-  state: StoreState<TStoreShape>,
-  payload: StoreMessagePayload<TStoreShape, TMessageType>,
-  storeInstance: StoreInstance<TStoreShape>
-) => StoreState<TStoreShape> | Thunk<TStoreShape> | void
+  state: StoreState<TStoreInterface>,
+  payload: StoreMessagePayload<TStoreInterface, TMessageType>,
+  storeInstance: StoreInstance<TStoreInterface>
+) => StoreState<TStoreInterface> | Thunk<TStoreInterface> | void

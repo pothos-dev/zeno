@@ -3,7 +3,7 @@ import { DefinesState } from './State'
 import { Dictionary } from './types'
 
 // All user-defined Store types must conform to this shape
-export interface StoreShape {
+export interface StoreInterface {
   // State must be an object
   state: Dictionary
 

@@ -1,7 +1,7 @@
 import { Dictionary, UnionOfValues } from './types'
-import { StoreShape } from './StoreShape'
+import { StoreInterface } from './StoreInterface'
 
-export type DefinesMessages = Pick<StoreShape, 'messages'>
+export type DefinesMessages = Pick<StoreInterface, 'messages'>
 
 export type MessageTypesOf<T extends DefinesMessages> = keyof T['messages']
 
@@ -30,6 +30,6 @@ export type ValidMessagePayload<TMessagePayload> = TMessagePayload extends {
 
 // Gets the payload for a specific store and message type.
 export type StoreMessagePayload<
-  TStoreShape extends StoreShape,
-  TMessageType extends keyof TStoreShape['messages']
-> = ValidMessagePayload<TStoreShape['messages'][TMessageType]>
+  TStoreInterface extends StoreInterface,
+  TMessageType extends keyof TStoreInterface['messages']
+> = ValidMessagePayload<TStoreInterface['messages'][TMessageType]>
