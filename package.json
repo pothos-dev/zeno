@@ -16,6 +16,10 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
   "dependencies": {
     "immer": "^6.0.2"
   },
@@ -28,7 +32,6 @@
   },
   "scripts": {
     "prepare": "rm -rf dist && tsc",
-    "ci-publish": "np patch --no-release-draft --no-yarn",
     "test": "jest"
   }
 }
