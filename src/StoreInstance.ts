@@ -11,6 +11,7 @@ import {
   Unsubscribe,
   createSubscribableState,
 } from './Subscription'
+import { attachDevTools } from './DevTools'
 
 // A StoreInstance is the object that actually contains the state.
 // There's always at least 1 instance, but more can be created
@@ -35,6 +36,7 @@ export function createStoreInstance<T extends StoreInterface>(
     options.initialState
   )
 
+  // storeInstance conforms to Redux' Store type
   const storeInstance = {
     getState,
     subscribe,
@@ -43,11 +45,13 @@ export function createStoreInstance<T extends StoreInterface>(
     dispatch: createSerialMessageExecutor(processMessage),
   }
 
+  // If available, connect with the Redux DevTools Extension
+  const devTools = attachDevTools(options.devToolsOptions ?? {})
+  devTools.initState(options.initialState)
+
   // The Reducer of this store needs access to the dispatch, as individual messageHandlers might want to
   // dispatch additional messages.
   const reducer = createReducer(options, storeInstance)
-
-  // storeInstance conforms to Redux' Store type
 
   // Build up the chain of middlewares
   const executeMiddleware = createExecuteMiddleware(
@@ -63,6 +67,9 @@ export function createStoreInstance<T extends StoreInterface>(
     const nextState = executeMiddleware(message)
     // This is where the state gets updated
     setState(nextState)
+
+    // notify DevTools as well
+    devTools.dispatchedMessage(message, nextState)
   }
 
   return storeInstance

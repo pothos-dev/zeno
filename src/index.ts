@@ -11,6 +11,7 @@ import { Thunk } from './Thunk'
 import { Middleware } from './Middleware'
 import { StoreInterface } from './StoreInterface'
 import { StoreState } from './State'
+import { DevToolsOptions } from './DevTools'
 
 export {
   // Primary function required to use Zeno.
@@ -37,4 +38,6 @@ export {
   Thunk,
   // Function that can alter the behavior of a Store.
   Middleware,
+  // Options for interacting with the Redux DevTools Browser Extension
+  DevToolsOptions,
 }
