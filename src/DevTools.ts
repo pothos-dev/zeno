@@ -10,7 +10,8 @@ interface DevToolsIntegration<T extends StoreInterface> {
 export function attachDevTools<T extends StoreInterface>(
   options: DevToolsOptions<T>
 ): DevToolsIntegration<T> {
-  const extension = window && (window as any).__REDUX_DEVTOOLS_EXTENSION__
+  const extension =
+    typeof window != 'undefined' && (window as any).__REDUX_DEVTOOLS_EXTENSION__
   if (!extension) {
     return {
       initState() {},
