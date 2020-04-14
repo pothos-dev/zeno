@@ -4,6 +4,7 @@ import { StoreInterface } from './StoreInterface'
 import { StoreState } from './State'
 import { MessageHandlers } from './MessageHandler'
 import { DevToolsOptions } from './DevTools'
+import { StoreReducer } from './Reducer'
 
 // Options passed to createStoreClass()
 export interface CreateStoreClassOptions<T extends StoreInterface> {
@@ -11,6 +12,7 @@ export interface CreateStoreClassOptions<T extends StoreInterface> {
   messageHandlers: MessageHandlers<T>
   middleware?: Middleware<T> | Middleware<T>[]
   devToolsOptions?: DevToolsOptions<T>
+  replaceReducer?: (rootReducer: StoreReducer<T>) => StoreReducer<T>
 }
 
 // Defines Shape and Behaviour of a Store.

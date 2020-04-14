@@ -51,7 +51,10 @@ export function createStoreInstance<T extends StoreInterface>(
 
   // The Reducer of this store needs access to the dispatch, as individual messageHandlers might want to
   // dispatch additional messages.
-  const reducer = createReducer(options, storeInstance)
+  let reducer = createReducer(options, storeInstance)
+  if (options.replaceReducer) {
+    reducer = options.replaceReducer(reducer)
+  }
 
   // Build up the chain of middlewares
   const executeMiddleware = createExecuteMiddleware(
