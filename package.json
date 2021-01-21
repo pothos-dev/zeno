@@ -21,7 +21,7 @@
     "access": "public"
   },
   "dependencies": {
-    "immer": "^6.0.2"
+    "immer": "^8.0.1"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
